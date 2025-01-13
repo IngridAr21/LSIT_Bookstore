@@ -19,7 +19,7 @@ public class BookRepository implements IBookRepository {
         return books.containsKey(id);
     }
 
-    public List<Book> list() {
+    public List<Book> list() { 
         return new ArrayList<>(books.values());
     }
 

@@ -132,14 +132,16 @@ public class S3CustomerCartRepository implements ICustomerCartRepository{
 
     public void addCart(CustomerCart cart){
         try{
-            String cartJson = objectMapper.writeValueAsString(cart);
-
+            String cartJson = objectMapper.writeValueAsString(cart);            
             s3client.putObject(PutObjectRequest.builder()
                 .bucket(BUCKET)
                 .key(PREFIX + cart.getId().toString())
                 .build(),
                 RequestBody.fromString(cartJson)
             );
+
+            
+
         }
         catch(JsonProcessingException e){
             throw new RuntimeException("Error serializing CustomerCart with ID " + cart.getId(), e);

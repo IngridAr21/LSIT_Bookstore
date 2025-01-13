@@ -1,6 +1,7 @@
 package Bookstore.Repositories;
 
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.*;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Bookstore.Models.Book;
+import Bookstore.Utils.BookInventory;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
@@ -44,7 +46,12 @@ public class S3BookRepository implements IBookRepository {
             .endpointOverride(URI.create(ENDPOINT_URL))
             .region(Region.of("auto"))
             .build();
+        
+        //BookInventory.getBooks().forEach(this::add);
+
     }
+
+
 
     @Override
     public boolean exists(UUID id){
@@ -68,12 +75,24 @@ public class S3BookRepository implements IBookRepository {
           .build()  
         ).contents();
 
+    
         for(S3Object o : objects){
-            Book book = new Book();
-            //book = this.get(UUID.fromString(o.key().substring(PREFIX.length())));
-            book.setId(UUID.fromString(o.key().substring(PREFIX.length())));
-            
-            books.add(book);
+            try{
+                if (o.size() == 0) {
+                    continue;  // Skip empty objects 
+                }
+                var objectBytes = s3client.getObject(GetObjectRequest.builder()
+                    .bucket(BUCKET)
+                    .key(o.key())
+                    .build()).readAllBytes();
+
+                ObjectMapper om = new ObjectMapper();
+                Book book = om.readValue(objectBytes, Book.class);
+                //book.setId(id);
+                books.add(book);
+            } catch (IOException e) {
+                e.printStackTrace(); // Log the error to see the stack trace
+            }
         }
 
         return books;

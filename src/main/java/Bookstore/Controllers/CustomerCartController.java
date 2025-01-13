@@ -4,6 +4,8 @@ import Bookstore.Models.Book;
 import Bookstore.Models.CustomerCart;
 import Bookstore.Repositories.BookRepository;
 import Bookstore.Repositories.CustomerCartRepository;
+import Bookstore.Repositories.IBookRepository;
+import Bookstore.Repositories.ICustomerCartRepository;
 import Bookstore.Repositories.S3BookRepository;
 import Bookstore.Repositories.S3CustomerCartRepository;
 
@@ -16,10 +18,10 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/cart")
 public class CustomerCartController {
-    private final S3CustomerCartRepository cartRepository;
-    private final S3BookRepository bookRepository;
+    private final ICustomerCartRepository cartRepository;
+    private final IBookRepository bookRepository;
 
-    public CustomerCartController(S3CustomerCartRepository cartRepository, S3BookRepository bookRepository) {
+    public CustomerCartController(ICustomerCartRepository cartRepository, IBookRepository bookRepository) {
         this.cartRepository = cartRepository;
         this.bookRepository = bookRepository;
     }
@@ -30,7 +32,10 @@ public class CustomerCartController {
         String loginMessage = "Login successful for user: " + username;
 
         CustomerCart cart = cartRepository.createCart();
+        
         cart.setCustomerUsername(username);
+        cartRepository.updateCart(cart);
+        
 
         return loginMessage + ". Your new cart ID is: " + cart.getId().toString();
     }

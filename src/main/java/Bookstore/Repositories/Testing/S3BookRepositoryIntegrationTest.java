@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class S3BookRepositoryIntegrationTest {
     public static void main(String[] args) {
-        // Initialize the S3BookRepository
+        // Initialize the S3BookRepository and load books
         S3BookRepository s3BookRepository = new S3BookRepository();
         /*
         // Create a test book
@@ -20,7 +20,7 @@ public class S3BookRepositoryIntegrationTest {
         s3BookRepository.add(newBook); */
         
         // Retrieve the book from S3
-        String uuidString = "9f04877f-3f17-4069-9382-e06a53af8c01";
+        /*String uuidString = "9f04877f-3f17-4069-9382-e06a53af8c01";
         UUID bookId = UUID.fromString(uuidString);
         Book retrievedBook = s3BookRepository.get(bookId);
 
@@ -29,7 +29,7 @@ public class S3BookRepositoryIntegrationTest {
             System.out.println("Retrieved Book: " + retrievedBook.getTitle() + ", Quantity: " + retrievedBook.getQuantity());
         } else {
             System.out.println("Book not found!");
-        }
+        } */
         /*
         // Update the book's quantity
         retrievedBook.setQuantity(20);
@@ -55,6 +55,22 @@ public class S3BookRepositoryIntegrationTest {
         } else {
             System.out.println("Book still exists in S3.");
         } */
+
+
+        //For deleting all the books
+        // Now, remove all books from GCS directly in the test
+        
+        System.out.println("\nRemoving all books from GCS...");
+        // Get the list of all books stored in GCS
+        s3BookRepository.list().forEach(book -> {
+            try {
+                s3BookRepository.remove(book.getId());
+                System.out.println("Deleted book: " + book.getTitle());
+            } catch (Exception e) {
+                System.err.println("Error deleting book: " + book.getTitle());
+                e.printStackTrace();
+            }
+        });
     }
 }
 

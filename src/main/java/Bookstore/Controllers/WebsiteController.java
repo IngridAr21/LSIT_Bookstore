@@ -3,6 +3,8 @@ package Bookstore.Controllers;
 import Bookstore.Models.CustomerCart;
 import Bookstore.Models.Website;
 import Bookstore.Repositories.CustomerCartRepository;
+import Bookstore.Repositories.ICustomerCartRepository;
+import Bookstore.Repositories.IWebsiteRepository;
 import Bookstore.Repositories.S3CustomerCartRepository;
 import Bookstore.Repositories.S3WebRepository;
 import Bookstore.Repositories.WebsiteRepository;
@@ -13,10 +15,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/website")
 public class WebsiteController {
-    private final S3WebRepository websiteRepository;
-    private final S3CustomerCartRepository cartRepository;
+    private final IWebsiteRepository websiteRepository;
+    private final ICustomerCartRepository cartRepository;
 
-    public WebsiteController(S3WebRepository websiteRepository, S3CustomerCartRepository cartRepository) {
+    public WebsiteController(IWebsiteRepository websiteRepository, ICustomerCartRepository cartRepository) {
         this.websiteRepository = websiteRepository;
         this.cartRepository = cartRepository;
     }

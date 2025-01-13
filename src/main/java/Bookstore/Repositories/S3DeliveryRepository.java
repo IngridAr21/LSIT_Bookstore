@@ -65,10 +65,9 @@ public class S3DeliveryRepository implements IDeliveryRepository{
                     .bucket(BUCKET)
                     .key(PREFIX + cartId.toString())
                     .build()).readAllBytes();
-            System.out.println("Hello");
+            
             return objectMapper.readValue(objectBytes, Delivery.class);
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
             return null; 
         }
