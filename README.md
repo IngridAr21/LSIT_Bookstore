@@ -6,15 +6,6 @@ This repository contains the backend implementation for a scalable e-commerce bo
 
 ---
 
-## **Features**
-- **User Roles:** Customers can browse books, manage their carts, and complete purchases seamlessly.
-- **RESTful API:** Handles book management, cart operations, payment processing, and delivery workflows.
-- **Cloud Persistence:** Data is stored in Amazon S3 for durability and scalability.
-- **Scalability:** Docker containers enable horizontal scaling across environments.
-- **Infrastructure Automation:** Terraform automates resource provisioning on Google Cloud Platform (GCP).
-
----
-
 ## **My Contributions**
 - **Cloud Integration:**
   - Implemented data persistence with Amazon S3 using JSON for structured and scalable storage.
