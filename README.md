@@ -13,4 +13,5 @@ This repository contains the backend implementation for a scalable e-commerce bo
 - **Backend Development:**
   - Designed and implemented the `DeliveryModel` and `DeliveryController` for managing post-payment workflows, including packing, shipping, and delivery.
   - Ensured seamless interaction between the delivery system and other backend services.
-
+-**RESTful API:**
+  - Testing and integrating API with Cloud
